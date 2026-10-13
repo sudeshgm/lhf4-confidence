@@ -1,4 +1,6 @@
+lhf4/
 .venv/
+venv/
 __pycache__/
 *.pyc
 weights/
