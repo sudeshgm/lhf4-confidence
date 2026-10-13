@@ -12,8 +12,8 @@ cd lhf4-confidence
 ```
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv lhf4
+source lhf4/bin/activate
 pip install -U pip
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
