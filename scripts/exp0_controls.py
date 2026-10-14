@@ -18,6 +18,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fog import GREY, apply_fog  # noqa: E402
+from logutil import start_log  # noqa: E402
 from smoke_vlm import PRIMARY, load_model, norm_answer, verbal_int  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,6 +88,7 @@ def mean(xs):
 
 
 def main() -> None:
+    start_log(RESULTS / "exp0_controls.txt")
     manifest = json.loads(MANIFEST.read_text())
     items = manifest["items"]
     if len(items) != 20:
