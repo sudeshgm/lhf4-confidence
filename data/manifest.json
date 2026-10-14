@@ -12,85 +12,85 @@
       "id": "i02",
       "image": "data/images/sev0/i02.png",
       "image_sev4": "data/images/sev4/i02.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "white"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i03",
       "image": "data/images/sev0/i03.png",
       "image_sev4": "data/images/sev4/i03.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "black"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i04",
       "image": "data/images/sev0/i04.png",
       "image_sev4": "data/images/sev4/i04.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "yellow"
+      "question": "How many vehicles are visible? Answer with a single digit.",
+      "gold": "1"
     },
     {
       "id": "i05",
       "image": "data/images/sev0/i05.png",
       "image_sev4": "data/images/sev4/i05.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "blue"
+      "question": "Is a car visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i06",
       "image": "data/images/sev0/i06.png",
       "image_sev4": "data/images/sev4/i06.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "red"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i07",
       "image": "data/images/sev0/i07.png",
       "image_sev4": "data/images/sev4/i07.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "orange"
+      "question": "How many vehicles are visible? Answer with a single digit.",
+      "gold": "1"
     },
     {
       "id": "i08",
       "image": "data/images/sev0/i08.png",
       "image_sev4": "data/images/sev4/i08.png",
-      "question": "What vehicle is on the road? Answer with one word.",
-      "gold": "motorcycle"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i09",
       "image": "data/images/sev0/i09.png",
       "image_sev4": "data/images/sev4/i09.png",
-      "question": "What vehicle is ahead? Answer with one word.",
-      "gold": "bus"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i10",
       "image": "data/images/sev0/i10.png",
       "image_sev4": "data/images/sev4/i10.png",
-      "question": "Is a rider visible? Answer yes or no.",
+      "question": "Is a person visible? Answer yes or no.",
       "gold": "yes"
     },
     {
       "id": "i11",
       "image": "data/images/sev0/i11.png",
       "image_sev4": "data/images/sev4/i11.png",
-      "question": "Is a road visible ahead? Answer yes or no.",
+      "question": "Is a road visible? Answer yes or no.",
       "gold": "yes"
     },
     {
       "id": "i12",
       "image": "data/images/sev0/i12.png",
       "image_sev4": "data/images/sev4/i12.png",
-      "question": "What vehicle is on the road? Answer with one word.",
-      "gold": "scooter"
+      "question": "Is a person visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i13",
       "image": "data/images/sev0/i13.png",
       "image_sev4": "data/images/sev4/i13.png",
-      "question": "What color is the taxi? Answer with one word.",
-      "gold": "yellow"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i14",
@@ -103,43 +103,44 @@
       "id": "i15",
       "image": "data/images/sev0/i15.png",
       "image_sev4": "data/images/sev4/i15.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "black"
+      "question": "How many vehicles are visible? Answer with a single digit.",
+      "gold": "1"
     },
     {
       "id": "i16",
       "image": "data/images/sev0/i16.png",
       "image_sev4": "data/images/sev4/i16.png",
-      "question": "What color is the van? Answer with one word.",
-      "gold": "white"
+      "question": "Is a vehicle visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i17",
       "image": "data/images/sev0/i17.png",
       "image_sev4": "data/images/sev4/i17.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "red"
+      "question": "How many vehicles are visible? Answer with a single digit.",
+      "gold": "1"
     },
     {
       "id": "i18",
       "image": "data/images/sev0/i18.png",
       "image_sev4": "data/images/sev4/i18.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "blue"
+      "question": "Is a car visible? Answer yes or no.",
+      "gold": "yes"
     },
     {
       "id": "i19",
       "image": "data/images/sev0/i19.png",
       "image_sev4": "data/images/sev4/i19.png",
-      "question": "What color is the car? Answer with one word.",
-      "gold": "green"
+      "question": "How many vehicles are visible? Answer with a single digit.",
+      "gold": "1"
     },
     {
       "id": "i20",
       "image": "data/images/sev0/i20.png",
       "image_sev4": "data/images/sev4/i20.png",
-      "question": "Is the car on a road? Answer yes or no.",
+      "question": "Is a road visible? Answer yes or no.",
       "gold": "yes"
     }
-  ]
+  ],
+  "note": "Questions rewritten after invalid smoke. Coarse presence or count. No fine colour or vehicle type."
 }

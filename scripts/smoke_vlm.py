@@ -8,6 +8,7 @@ Prints the paste block the CPU agent expects.
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import traceback
@@ -97,6 +98,9 @@ def verbal_int(text: str):
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--clean-only", action="store_true", help="Severity 0 only. 7B only, no fallback.")
+    args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text())
     items = manifest["items"][:8]
     model_name = PRIMARY
@@ -106,6 +110,8 @@ def main() -> None:
         model, processor = load_model(PRIMARY, use_4bit=True)
     except Exception as exc:
         print("PRIMARY_LOAD_FAILED:", type(exc).__name__, exc)
+        if args.clean_only:
+            raise
         try:
             model, processor = load_model(FALLBACK, use_4bit=True)
             model_name = FALLBACK
@@ -114,10 +120,11 @@ def main() -> None:
             traceback.print_exc()
             raise
 
+    severities = ((0, "image"),) if args.clean_only else ((0, "image"), (4, "image_sev4"))
     rows = []
     try:
         for item in items:
-            for severity, key in ((0, "image"), (4, "image_sev4")):
+            for severity, key in severities:
                 image_path = ROOT / item[key]
                 pred, lp = ask(model, processor, image_path, item["question"])
                 pred_n = norm_answer(pred)
