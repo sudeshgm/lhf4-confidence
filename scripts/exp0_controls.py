@@ -17,7 +17,7 @@ import torch
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fog import AIRLIGHT, apply_fog  # noqa: E402
+from fog import GREY, apply_fog  # noqa: E402
 from smoke_vlm import PRIMARY, load_model, norm_answer, verbal_int  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,7 +97,7 @@ def main() -> None:
     prior_rows = []
     blank_rows = []
     conf_rows = []
-    grey = tuple(int(x) for x in AIRLIGHT.tolist())
+    grey = tuple(int(x) for x in GREY.tolist())
 
     with tempfile.TemporaryDirectory(prefix="lhf4_exp0_") as tmp:
         tmp_dir = Path(tmp)
