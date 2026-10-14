@@ -1,6 +1,10 @@
 """Temporal frame-drop smoke. Do not train. 7B only. Severities 0 and 4.
 
+Frames are sent as images, not as an mp4.
+
 Run from the repo root:
+    export HF_HOME="$PWD/hf-cache"
+    export HUGGINGFACE_HUB_CACHE="$PWD/hf-cache/hub"
     python scripts/temporal_smoke.py
 """
 
@@ -9,15 +13,14 @@ from __future__ import annotations
 import json
 import math
 import sys
-import tempfile
 from pathlib import Path
 
-from PIL import Image
+import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from frame_drop import select_frames  # noqa: E402
 from logutil import start_log  # noqa: E402
-from smoke_vlm import PRIMARY, ask, load_model, norm_answer  # noqa: E402
+from smoke_vlm import PRIMARY, load_model, norm_answer  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data" / "temporal_manifest.json"
@@ -29,20 +32,42 @@ def mean(xs):
     return sum(xs) / len(xs) if xs else float("nan")
 
 
-def frames_to_video(frame_paths: list[Path], out_path: Path, fps: int = 2) -> None:
-    import subprocess
+def ask_frames(model, processor, frame_paths: list[Path], question: str, max_new_tokens: int = 16):
+    from qwen_vl_utils import process_vision_info
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    lst = out_path.with_suffix(".txt")
-    lst.write_text("".join(f"file '{p.resolve()}'\nduration {1/fps}\n" for p in frame_paths))
-    subprocess.check_call(
-        [
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(lst),
-            "-vf", "fps=2,scale=640:-2", "-pix_fmt", "yuv420p", str(out_path),
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+    content = [{"type": "image", "image": str(p)} for p in frame_paths]
+    content.append({"type": "text", "text": question})
+    messages = [{"role": "user", "content": content}]
+    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    image_inputs, video_inputs = process_vision_info(messages)
+    inputs = processor(
+        text=[text],
+        images=image_inputs,
+        videos=video_inputs,
+        padding=True,
+        return_tensors="pt",
     )
+    inputs = {k: v.to(model.device) if hasattr(v, "to") else v for k, v in inputs.items()}
+    with torch.no_grad():
+        out = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            output_scores=True,
+            return_dict_in_generate=True,
+        )
+    prompt_len = inputs["input_ids"].shape[1]
+    gen_ids = out.sequences[0, prompt_len:]
+    pred = processor.decode(gen_ids, skip_special_tokens=True).strip()
+    logprobs = []
+    for step, logits in enumerate(out.scores):
+        if step >= len(gen_ids):
+            break
+        token_id = int(gen_ids[step])
+        lp = torch.log_softmax(logits[0].float(), dim=-1)[token_id].item()
+        logprobs.append(lp)
+    mean_lp = sum(logprobs) / len(logprobs) if logprobs else float("nan")
+    return pred, mean_lp
 
 
 def main() -> None:
@@ -52,30 +77,26 @@ def main() -> None:
         raise RuntimeError(f"expected 8 clips, got {len(items)}")
     model, processor = load_model(PRIMARY, use_4bit=True)
     rows = []
-    with tempfile.TemporaryDirectory(prefix="lhf4_temporal_") as tmp:
-        tmp_dir = Path(tmp)
-        for item in items:
-            frames = [ROOT / p for p in item["frames"]]
-            for severity in (0, 4):
-                chosen = select_frames(frames, severity)
-                video = tmp_dir / f"{item['id']}_s{severity}.mp4"
-                frames_to_video(chosen, video)
-                pred, lp = ask(model, processor, video, item["question"])
-                pred_n = norm_answer(pred)
-                row = {
-                    "id": item["id"],
-                    "severity": severity,
-                    "n_frames": len(chosen),
-                    "gold": item["gold"],
-                    "prediction": pred_n,
-                    "exact_match": int(pred_n == item["gold"]),
-                    "logprob": lp,
-                }
-                rows.append(row)
-                print(
-                    f"{item['id']} sev{severity} n={len(chosen)} gold={item['gold']} pred={pred_n} match={row['exact_match']} lp={lp:.3f}",
-                    flush=True,
-                )
+    for item in items:
+        frames = [ROOT / p for p in item["frames"]]
+        for severity in (0, 4):
+            chosen = select_frames(frames, severity)
+            pred, lp = ask_frames(model, processor, chosen, item["question"])
+            pred_n = norm_answer(pred)
+            row = {
+                "id": item["id"],
+                "severity": severity,
+                "n_frames": len(chosen),
+                "gold": item["gold"],
+                "prediction": pred_n,
+                "exact_match": int(pred_n == item["gold"]),
+                "logprob": lp,
+            }
+            rows.append(row)
+            print(
+                f"{item['id']} sev{severity} n={len(chosen)} gold={item['gold']} pred={pred_n} match={row['exact_match']} lp={lp:.3f}",
+                flush=True,
+            )
     sev0 = [r for r in rows if r["severity"] == 0]
     sev4 = [r for r in rows if r["severity"] == 4]
     payload = {
