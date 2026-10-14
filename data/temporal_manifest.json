@@ -1,0 +1,65 @@
+{
+  "n": 8,
+  "degradation": "frame_drop",
+  "drop": {"0": 0.0, "1": 0.25, "2": 0.50, "3": 0.75, "4": 1.0},
+  "note": "Severity 4 keeps the first frame only. Questions need the clip.",
+  "source": "Pexels, free license, no login",
+  "items": [
+    {
+      "id": "t01",
+      "clip": "data/clips/t01",
+      "frames": ["data/clips/t01/f01.jpg","data/clips/t01/f02.jpg","data/clips/t01/f03.jpg","data/clips/t01/f04.jpg","data/clips/t01/f05.jpg","data/clips/t01/f06.jpg","data/clips/t01/f07.jpg","data/clips/t01/f08.jpg"],
+      "question": "Does the car stop? Answer yes or no.",
+      "gold": "no"
+    },
+    {
+      "id": "t02",
+      "clip": "data/clips/t02",
+      "frames": ["data/clips/t02/f01.jpg","data/clips/t02/f02.jpg","data/clips/t02/f03.jpg","data/clips/t02/f04.jpg","data/clips/t02/f05.jpg","data/clips/t02/f06.jpg","data/clips/t02/f07.jpg","data/clips/t02/f08.jpg"],
+      "question": "Does the car leave the road? Answer yes or no.",
+      "gold": "no"
+    },
+    {
+      "id": "t03",
+      "clip": "data/clips/t03",
+      "frames": ["data/clips/t03/f01.jpg","data/clips/t03/f02.jpg","data/clips/t03/f03.jpg","data/clips/t03/f04.jpg","data/clips/t03/f05.jpg","data/clips/t03/f06.jpg","data/clips/t03/f07.jpg","data/clips/t03/f08.jpg"],
+      "question": "Does the car stop? Answer yes or no.",
+      "gold": "no"
+    },
+    {
+      "id": "t04",
+      "clip": "data/clips/t04",
+      "frames": ["data/clips/t04/f01.jpg","data/clips/t04/f02.jpg","data/clips/t04/f03.jpg","data/clips/t04/f04.jpg","data/clips/t04/f05.jpg","data/clips/t04/f06.jpg","data/clips/t04/f07.jpg","data/clips/t04/f08.jpg"],
+      "question": "Does the car keep moving? Answer yes or no.",
+      "gold": "yes"
+    },
+    {
+      "id": "t05",
+      "clip": "data/clips/t05",
+      "frames": ["data/clips/t05/f01.jpg","data/clips/t05/f02.jpg","data/clips/t05/f03.jpg","data/clips/t05/f04.jpg","data/clips/t05/f05.jpg","data/clips/t05/f06.jpg","data/clips/t05/f07.jpg","data/clips/t05/f08.jpg"],
+      "question": "Does the car turn? Answer yes or no.",
+      "gold": "yes"
+    },
+    {
+      "id": "t06",
+      "clip": "data/clips/t06",
+      "frames": ["data/clips/t06/f01.jpg","data/clips/t06/f02.jpg","data/clips/t06/f03.jpg","data/clips/t06/f04.jpg","data/clips/t06/f05.jpg","data/clips/t06/f06.jpg","data/clips/t06/f07.jpg","data/clips/t06/f08.jpg"],
+      "question": "Does the car stop? Answer yes or no.",
+      "gold": "no"
+    },
+    {
+      "id": "t07",
+      "clip": "data/clips/t07",
+      "frames": ["data/clips/t07/f01.jpg","data/clips/t07/f02.jpg","data/clips/t07/f03.jpg","data/clips/t07/f04.jpg","data/clips/t07/f05.jpg","data/clips/t07/f06.jpg","data/clips/t07/f07.jpg","data/clips/t07/f08.jpg"],
+      "question": "Does the car leave the road? Answer yes or no.",
+      "gold": "no"
+    },
+    {
+      "id": "t08",
+      "clip": "data/clips/t08",
+      "frames": ["data/clips/t08/f01.jpg","data/clips/t08/f02.jpg","data/clips/t08/f03.jpg","data/clips/t08/f04.jpg","data/clips/t08/f05.jpg","data/clips/t08/f06.jpg","data/clips/t08/f07.jpg","data/clips/t08/f08.jpg"],
+      "question": "Does the car keep moving? Answer yes or no.",
+      "gold": "yes"
+    }
+  ]
+}
