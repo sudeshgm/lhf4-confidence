@@ -18,6 +18,8 @@ import torch
 from PIL import Image
 from transformers import AutoProcessor, BitsAndBytesConfig
 
+from logutil import start_log
+
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data" / "manifest.json"
 PRIMARY = "Qwen/Qwen2.5-VL-7B-Instruct"
@@ -98,6 +100,7 @@ def verbal_int(text: str):
 
 
 def main() -> None:
+    start_log(ROOT / "results" / "smoke_vlm.txt")
     parser = argparse.ArgumentParser()
     parser.add_argument("--clean-only", action="store_true", help="Severity 0 only. 7B only, no fallback.")
     args = parser.parse_args()
