@@ -3,8 +3,9 @@
 severity 0: original image
 severities 1-4: blend toward a fixed grey fog colour
     I = (1 - a) * I0 + a * G
-    a = 0.25, 0.45, 0.65, 0.85
     G = (128, 128, 128)
+    ALPHA (original): 0.25, 0.45, 0.65, 0.85
+    ALPHA_STRONG: 0.50, 0.70, 0.85, 0.95
 
 No RNG. Alpha is not estimated from the image.
 """
@@ -14,7 +15,10 @@ from __future__ import annotations
 import numpy as np
 
 GREY = np.array([128.0, 128.0, 128.0], dtype=np.float32)
+# Original sweep. Kept so that run stays reproducible.
 ALPHA = {0: 0.0, 1: 0.25, 2: 0.45, 3: 0.65, 4: 0.85}
+# Stronger schedule for the validity re-check.
+ALPHA_STRONG = {0: 0.0, 1: 0.50, 2: 0.70, 3: 0.85, 4: 0.95}
 
 
 def alpha(severity: int) -> float:
@@ -23,11 +27,14 @@ def alpha(severity: int) -> float:
     return ALPHA[severity]
 
 
-def apply_fog(image: np.ndarray, severity: int) -> np.ndarray:
+def apply_fog(image: np.ndarray, severity: int, alphas: dict | None = None) -> np.ndarray:
     """Return uint8 RGB or RGBA. Severity 0 returns a copy."""
     if image.ndim != 3 or image.shape[2] not in (3, 4):
         raise ValueError("expected HxWx3 or HxWx4 image")
-    a = alpha(severity)
+    table = ALPHA if alphas is None else alphas
+    if severity not in table:
+        raise ValueError(f"severity must be in {sorted(table)}, got {severity}")
+    a = table[severity]
     out = np.array(image, copy=True)
     if a == 0.0:
         return out
