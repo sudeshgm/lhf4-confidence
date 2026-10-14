@@ -1,0 +1,97 @@
+{
+  "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "fallback": "no",
+  "severity": 0,
+  "n": 8,
+  "note": "Clean-frame smoke. Invalid for the fog claim because clean accuracy is 1/8.",
+  "rows": [
+    {
+      "id": "i01",
+      "image": "data/images/sev0/i01.png",
+      "question": "Is a steering wheel visible? Answer yes or no.",
+      "gold": "yes",
+      "prediction": "yes",
+      "exact_match": 1,
+      "logprob": -0.0028,
+      "verbal": 95,
+      "miss_class": null
+    },
+    {
+      "id": "i02",
+      "image": "data/images/sev0/i02.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "white",
+      "prediction": "black",
+      "exact_match": 0,
+      "logprob": -0.0122,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i03",
+      "image": "data/images/sev0/i03.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "black",
+      "prediction": "white",
+      "exact_match": 0,
+      "logprob": -0.0157,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i04",
+      "image": "data/images/sev0/i04.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "yellow",
+      "prediction": "blue",
+      "exact_match": 0,
+      "logprob": -0.0123,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i05",
+      "image": "data/images/sev0/i05.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "blue",
+      "prediction": "white",
+      "exact_match": 0,
+      "logprob": -0.0203,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i06",
+      "image": "data/images/sev0/i06.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "red",
+      "prediction": "no",
+      "exact_match": 0,
+      "logprob": -0.5198,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i07",
+      "image": "data/images/sev0/i07.png",
+      "question": "What color is the car? Answer with one word.",
+      "gold": "orange",
+      "prediction": "blue",
+      "exact_match": 0,
+      "logprob": -0.0285,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    },
+    {
+      "id": "i08",
+      "image": "data/images/sev0/i08.png",
+      "question": "What vehicle is on the road? Answer with one word.",
+      "gold": "motorcycle",
+      "prediction": "car",
+      "exact_match": 0,
+      "logprob": -0.3391,
+      "verbal": 95,
+      "miss_class": "WRONG"
+    }
+  ]
+}
