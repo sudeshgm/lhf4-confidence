@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 import torch
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from frame_drop import select_frames  # noqa: E402
@@ -32,10 +33,20 @@ def mean(xs):
     return sum(xs) / len(xs) if xs else float("nan")
 
 
+def shrink(path: Path, long_side: int = 320) -> Image.Image:
+    image = Image.open(path).convert("RGB")
+    w, h = image.size
+    scale = long_side / max(w, h)
+    if scale < 1:
+        image = image.resize((max(1, int(w * scale)), max(1, int(h * scale))))
+    return image
+
+
 def ask_frames(model, processor, frame_paths: list[Path], question: str, max_new_tokens: int = 16):
     from qwen_vl_utils import process_vision_info
 
-    content = [{"type": "image", "image": str(p)} for p in frame_paths]
+    images = [shrink(p) for p in frame_paths]
+    content = [{"type": "image", "image": image} for image in images]
     content.append({"type": "text", "text": question})
     messages = [{"role": "user", "content": content}]
     text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -97,6 +108,7 @@ def main() -> None:
                 f"{item['id']} sev{severity} n={len(chosen)} gold={item['gold']} pred={pred_n} match={row['exact_match']} lp={lp:.3f}",
                 flush=True,
             )
+            torch.cuda.empty_cache()
     sev0 = [r for r in rows if r["severity"] == 0]
     sev4 = [r for r in rows if r["severity"] == 4]
     payload = {
